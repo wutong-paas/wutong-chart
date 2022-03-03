@@ -1,10 +1,10 @@
 apiVersion: v1
 items:
-- apiVersion: rainbond.io/v1alpha1
-  kind: RainbondCluster
+- apiVersion: wutong.io/v1alpha1
+  kind: WutongCluster
   metadata:
-    name: rainbondcluster
-    namespace: rbd-system
+    name: wutongcluster
+    namespace: wt-system
   spec:
     enableHA: {{ .Values.Cluster.enableHA }}
 {{- if .Values.Cluster.etcd.enable }}   
@@ -33,14 +33,14 @@ items:
       namespace: {{ .Values.Cluster.imageHub.namespace }} 
 {{- end }}
 {{- if .Values.Cluster.RWO.enable  }} 
-    rainbondVolumeSpecRWO:
+    wutongVolumeSpecRWO:
       storageClassName: {{ .Values.Cluster.RWO.storageClassName }}
-      imageRepository: registry.cn-hangzhou.aliyuncs.com/goodrain
+      imageRepository: swr.cn-southwest-2.myhuaweicloud.com/wutong
 {{- end }}
 {{- if .Values.Cluster.RWX.enable  }} 
-    rainbondVolumeSpecRWX:
+    wutongVolumeSpecRWX:
       storageClassName: {{ .Values.Cluster.RWX.storageClassName }}         
-      imageRepository: registry.cn-hangzhou.aliyuncs.com/goodrain
+      imageRepository: swr.cn-southwest-2.myhuaweicloud.com/wutong
 {{- else }}
   {{- if .Values.Cluster.enableHA }}
     {{- fail "External shared storage must be set in high availability mode!"}}
@@ -75,7 +75,7 @@ items:
 {{ .Values.Cluster.nodesForGateway | toYaml | indent 4 }}
 {{- else }}
 {{ end }}
-    rainbondImageRepository: {{ .Values.Cluster.rainbondImageRepository }}
+    wutongImageRepository: {{ .Values.Cluster.wutongImageRepository }}
 
 kind: List
 metadata:

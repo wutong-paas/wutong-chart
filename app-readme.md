@@ -1,8 +1,8 @@
-## Rainbond Console
+## Wutong Console
 
-* Use helm install Rainbond-Console in kubernetes
+* Use helm install Wutong-Console in kubernetes
 
 ## Installing the Chart
 
-* Reference the [Rainbond doc](https://www.rainbond.com/docs/install/other-methods/install-from-rancher/) for more details.
+* Reference the [Wutong doc](https://www.wutong-paas.com/docs/install/other-methods/install-from-rancher/) for more details.
 
