@@ -10,20 +10,20 @@ rbac:
 ## Service account name and whether to create it
 serviceAccount:
   create: true
-  name: rainbond-operator
+  name: wutong-operator
 
-# rainbondOperator
+# wutongOperator
 operator:
-  name: rainbond-operator
+  name: wutong-operator
 ##    env:
 ##      variable_name: variable
   image:
-    name: registry.cn-hangzhou.aliyuncs.com/goodrain/rainbond-operator
-    tag: v2.2.0
+    name: swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong-operator
+    tag: v1.0.0
     pullPolicy: IfNotPresent
   logLevel: 4
 
-#Rainbondcluster
+#Wutongcluster
 Cluster:
 ## 定义是否开启高可用，true为开，false为关  
   enableHA: false
@@ -31,8 +31,8 @@ Cluster:
 ## 定义是否使用外部镜像镜像仓库，true为开，false为关
   imageHub:
     enable: false
-    domain: registry.cn-hangzhou.aliyuncs.com
-    namespace: rainbond
+    domain: swr.cn-southwest-2.myhuaweicloud.com
+    namespace: wutong
     password: admin
     username: admin
 
@@ -40,10 +40,10 @@ Cluster:
   etcd:
     enable: false
     endpoints: 
-    - 192.168.0.1:2379 
+    - 192.168.0.1:2379
     - 192.168.0.2:2379
     - 192.168.0.3:2379
-    secretName: "rbd-etcd-secret"
+    secretName: "wt-etcd-secret"
 
 ## 外部存储，直接填写storageClassName，true为开，false为关
   RWX:
@@ -74,26 +74,27 @@ Cluster:
     username: admin 
 
 ## 对外网关，填写IP
-#  gatewayIngressIPs: 192.168.0.1
+  # gatewayIngressIPs: 
+  # - 192.168.0.1
 
 ## chaos对应配置，name为Chaos节点node名称
-#  nodesForChaos:
-#  - name: node1
-#  - name: node2
+  # nodesForChaos:
+  # - name: node1
+  # - name: node2
 
-## 网关节点对应配置，externalIP为网关节点外部IP，internalIP为网关节点内部IP，name为网关节点node名称
-#  nodesForGateway:
-#  - externalIP: 192.168.0.1
-#    internalIP: 192.168.0.1
-#    name: node1
-#  - externalIP: 192.168.0.2
-#    internalIP: 192.168.0.2
-#    name: node2
+# 网关节点对应配置，externalIP为网关节点外部IP，internalIP为网关节点内部IP，name为网关节点node名称
+  # nodesForGateway:
+  # - externalIP: 192.168.0.1
+  #   internalIP: 192.168.0.1
+  #   name: node1
+  # - externalIP: 192.168.0.2
+  #   internalIP: 192.168.0.2
+  #   name: node2
 
 ## 系统组件统一镜像仓库拉取地址及名称空间
-  rainbondImageRepository: registry.cn-hangzhou.aliyuncs.com/goodrain
+  wutongImageRepository: swr.cn-southwest-2.myhuaweicloud.com/wutong
 ## 系统组件统一镜像版本
-  installVersion: v5.5.0-release
+  installVersion: v1.0.0-stable
 ## 系统组件统一镜像拉取策略
   imagePullPolicy: IfNotPresent
 ## 高可用安装模式下，系统组件副本数
@@ -103,8 +104,8 @@ Cluster:
 
 Component:
 
-## rbd-api 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_api:
+## wt-api 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  wt_api:
     args:
   ##    - --api-addr          api服务器侦听地址（默认为“127.0.0.1:8888”）
   ##    - --enable-feature    支持的特殊功能列表
@@ -124,18 +125,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-gteway 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_gteway:
+## wt-gteway 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  wt_gteway:
     args:
   ##    - --log-level        日志级别
   ##    - --error-log        记录错误日志路径
@@ -148,18 +149,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-node 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_node:
+## wt-node 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  wt_node:
     args:
   ##    - --log-level   日志级别，默认info
   ##    - --etcd        etcd地址,默认 [http://127.0.0.1:2379]
@@ -176,18 +177,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-hub 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_hub:
+## wt-hub 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  wt_hub:
     args:
   ##    - --hub-ca=/r
   ##    - --hub-ca=/r
@@ -198,18 +199,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-mq 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_mq:
+## wt-mq 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  wt_mq:
     args:
   ##    - --log-level        日志级别
   ##    - --etcd-endpoints   集群etcd连接地址
@@ -221,18 +222,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-resource-proxy 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_resource_proxy:
+## wt-resource-proxy 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_resource_proxy:
     args:
   ## 环境变量variable_name为变量名,variable为变量值
   ##  env:
@@ -241,18 +242,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-webcli 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_webcli:
+## wt-webcli 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_webcli:
     args:
   ##    - --hostIP            本机ip
   ##    - --log-level         日志级别
@@ -264,18 +265,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-monitor 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_monitor:
+## wt-monitor 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_monitor:
     args:
   ##    --alertmanager-address AlertManager地址
   ##    --cadvisor-listen-port kubelet cadvisor监听端口
@@ -289,18 +290,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-db 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_db:
+## wt-db 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_db:
     args:
 ## 环境变量variable_name为变量名,variable为变量值
   ##  env:
@@ -309,18 +310,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-chaos 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_chaos:
+## wt-chaos 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_chaos:
     args:
   ##    - --hostIP    当前节点内网IP
   ##    - --log-level 日志级别（默认“info”)
@@ -333,18 +334,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-worker 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_worker:
+## wt-worker 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_worker:
     args:
   ##    - --log-level   日志级别
   ##    - --host-ip     此工作进程的ip，必须是全局连接的ip
@@ -358,18 +359,18 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-eventlog 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
-  rbd_eventlog:
+## wt-eventlog 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载      
+  wt_eventlog:
     args:
   ##    - --cluster.bind.ip    集群通信监听IP
   ##    - --cluster.instance   群集中的当前实例通信IP
@@ -383,32 +384,32 @@ Component:
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
 
 
-## rbd-app-ui 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
-  rbd_app_ui:
-    enable: true
-    args:
+## wt-app-ui 组件自定义信息: 启动参数，环境变量，镜像地址，存储挂载
+  # wt_app_ui:
+  #   enable: true
+  #   args:
 ## 环境变量variable_name为变量名,variable为变量值
   ##  env:
   ##      variable_name: variable  
-    image: registry.cn-hangzhou.aliyuncs.com/goodrain/rainbond:v5.5.0-helm-allinone
+  ##  image: swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong:v1.0.0-stable
   ##  volumes:
   ##    testpv:
   ##      persistentVolumeClaim:
-  ##        claimName: rbd-cpt-grdate
+  ##        claimName: wt-cpt-grdate
   ##    testsc:
   ##      secret:
   ##        defaultMode: 420
-  ##        secretName: rbd-api-server-cert
+  ##        secretName: wt-api-server-cert
   ##  volumeMounts:
   ##    testpv: /data
   ##    testsc: /test
@@ -419,8 +420,8 @@ Component:
     image:
 
 
-## rbd-etcd 组件自定义信息: 镜像地址
-  rbd_etcd:
+## wt-etcd 组件自定义信息: 镜像地址
+  wt_etcd:
     image:
 
 ## metrics-server 组件自定义信息: 镜像地址
@@ -435,3 +436,209 @@ Component:
 ## kubernetes-dashboard 组件自定义信息: 镜像地址
   kubernetes_dashboard:
     image:
+
+
+# -------------------------------------------
+# Wutong-Console:
+# -------------------------------------------
+
+# Refer to README for configuration details
+# Please refer to the official documentation for installation https://www.wutong.com/docs/install/other-methods/install-from-rancher/
+
+
+# Specify up the dynamic storage used by the Wutong component
+# If not, please refer https://artifacthub.io/packages/helm/kvaps/nfs-server-provisioner
+pvc:
+  storageClassName: ""
+  # 5Gi
+  storageSize: 5Gi
+
+# Redis configuration,Refer to README for configuration details
+redis:
+  # Specify the full name of Redis
+  fullname: wutong-redis
+
+  # Specify the Redis image
+  image:
+    repository: redis
+    pullPolicy: IfNotPresent
+    tag: 4.0.12
+
+  # Specify the Redis Password 
+  password: "123456"
+  podAnnotations: {}
+
+  # Set the Redis Labels
+  selectorLabels: 
+    wutong: redis
+
+  # Set POD resource limits
+  resources:
+    limits:
+      cpu: 80m
+      memory: 64Mi
+    requests:
+      cpu: 30m
+      memory: 64Mi
+
+  nodeSelector: {}
+  affinity: {}
+
+# Mysql configuration,Refer to README for configuration details
+mysql:
+
+  # Specify the full name of Mysql
+  fullname: wutong-mysql
+
+  # Specify the Mysql image
+  image:
+    repository: mysql
+    pullPolicy: IfNotPresent
+    tag: 5.7.23
+
+  # Specify your MySQL account password and database
+  secret:
+    user: admin
+    password: admin
+    rootpassword: root
+    database: console
+
+  podAnnotations: {}
+
+  # Set the MySQL Labels
+  selectorLabels: 
+    wutong: mysql
+
+  # Set POD resource limits
+  resources:
+    limits:
+      cpu: 640m
+      memory: 512Mi
+    requests:
+      cpu: 120m
+      memory: 512Mi
+
+  nodeSelector: {}
+  affinity: {}
+
+# Separate versions of the front and back ends of Wutong-Console
+# Cluster installation controller configuration
+# Deprecated, please refer to the official documentation to install the detached console from the Rainstore https://www.wutong.com/docs/user-operations/ha-deploy/console-recover/
+adaptor:
+
+  # Specify the full name of adaptor
+  fullname: wutong-adaptor
+
+  # Adaptor is not installed by default
+  enable: true
+
+  # Specify the Adaptor image
+  # No mirroring is provided by default
+  image:
+    repository: "swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong-adaptor"
+    pullPolicy: IfNotPresent
+    tag: "v1.0.0-stable"
+
+  podAnnotations: {}
+
+  # Set the Adaptor Labels
+  selectorLabels: 
+    wutong: adaptor
+
+  # Set POD resource limits
+  resources:
+    limits:
+      cpu: 80m
+      memory: 64Mi
+    requests:
+      cpu: 30m
+      memory: 64Mi
+
+  nodeSelector: {}
+  affinity: {}
+
+# Separate versions of the front and back ends of Wutong-Console
+# Console back-end services
+# Deprecated, please refer to the official documentation to install the detached console from the Rainstore https://www.wutong.com/docs/user-operations/ha-deploy/console-recover/
+console:
+
+  # Specify the full name of Console
+  fullname: wutong-console
+
+  # Console is not installed by default
+  enable: true
+
+  # Set the number of copies
+  replicasCount: 1
+
+  # Set the Console version
+  RELEASE_DESC: "v5.3.1-release-20210703"
+
+  # Specify the Console image
+  # No mirroring is provided by default
+  image:
+    repository: "swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong-console"
+    pullPolicy: IfNotPresent
+    tag: "v1.0.0-stable"
+
+  podAnnotations: {}
+
+  # Set the Console Labels
+  selectorLabels: 
+    wutong: console
+
+  # Set POD resource limits
+  resources:
+    limits:
+      cpu: 1280m
+      memory: 1Gi
+    requests:
+      cpu: 240m
+      memory: 1Gi
+
+  nodeSelector: {}
+  affinity: {}
+
+# Separate versions of the front and back ends of Wutong-Console
+# Console front-end services
+# Deprecated, please refer to the official documentation to install the detached console from the Rainstore https://www.wutong.com/docs/user-operations/ha-deploy/console-recover/
+ui:
+
+  # Specify the full name of UI
+  fullname: wutong-ui
+
+  # UI is not installed by default
+  enable: true
+
+  # Set the number of copies
+  replicasCount: 1
+
+  # Specify the Console image
+  # No mirroring is provided by default
+  image:
+    repository: "swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong-ui"
+    pullPolicy: IfNotPresent
+    tag: "v1.0.0-stable"
+  
+  # The default service protocol is NodePort, which opens port 30606
+  svc:
+    type: NodePort
+    nodePort: 30600
+
+  podAnnotations: {}
+
+  # Set the UI Labels
+  selectorLabels: 
+    wutong: ui
+
+  # Set POD resource limits
+  resources:
+    limits:
+      cpu: 120m
+      memory: 128Mi
+    requests:
+      cpu: 30m
+      memory: 128Mi
+
+  nodeSelector: {}
+  affinity: {}
